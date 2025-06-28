@@ -353,3 +353,40 @@ function fetchQuotesFromServer() {
   updateQuoteList();
   populateCategories();
 }
+
+
+async function fetchQuotesFromServer() {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts"); // ✅ await + URL
+    const data = await response.json();
+
+    // Convert posts to quote-like format (title = text, body = category for example)
+    quotes = data.slice(0, 5).map(post => ({
+      text: post.title,
+      category: post.body.substring(0, 20) + "..." // shorten for display
+    }));
+
+    localStorage.setItem("quotes", JSON.stringify(quotes));
+
+    updateQuoteList();
+    populateCategories();
+  } catch (error) {
+    console.error("Error fetching quotes:", error);
+  }
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  createAddQuoteForm();
+
+  // Fetch from server if no local quotes
+  if (!localStorage.getItem("quotes")) {
+    fetchQuotesFromServer(); // ✅ now async and correct URL
+  } else {
+    quotes = JSON.parse(localStorage.getItem("quotes"));
+    updateQuoteList();
+    populateCategories();
+  }
+
+  // Other event listeners like import/export/filter...
+});
