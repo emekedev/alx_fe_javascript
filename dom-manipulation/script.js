@@ -31,21 +31,47 @@ function createAddQuoteForm() {
 }
 
 // Function to add a quote from the form
-function addQuote() {
-  const quoteText = document.getElementById('new-quote-text').value.trim();
-  const category = document.getElementById('new-quote-category').value.trim();
+// function addQuote() {
+//   const quoteText = document.getElementById('new-quote-text').value.trim();
+//   const category = document.getElementById('new-quote-category').value.trim();
 
-  if (quoteText && category) {
-    quotes.push({ text: quoteText, category: category });
-    alert("Quote added!");
-    document.getElementById('new-quote-text').value = '';
-    document.getElementById('new-quote-category').value = '';
-  } else {
-    alert("Please fill in both the quote and category.");
-  }
-}
+//   if (quoteText && category) {
+//     quotes.push({ text: quoteText, category: category });
+//     alert("Quote added!");
+//     document.getElementById('new-quote-text').value = '';
+//     document.getElementById('new-quote-category').value = '';
+//   } else {
+//     alert("Please fill in both the quote and category.");
+//   }
+// }
 
 // Create the form on page load
 document.addEventListener('DOMContentLoaded', () => {
   createAddQuoteForm();
 });
+
+function addQuote() {
+  const quoteText = document.getElementById('new-quote-text').value.trim();
+  const category = document.getElementById('new-quote-category').value.trim();
+  const feedback = document.getElementById('feedback');
+
+  if (quoteText && category) {
+    const newQuote = { text: quoteText, category: category };  // ✅ Create the quote object
+    quotes.push(newQuote);                                     // ✅ Add to the quotes array
+    updateQuoteList();                                         // ✅ Update the DOM (render all quotes)
+    feedback.textContent = "Quote added!";
+    setTimeout(() => (feedback.textContent = ""), 2000);
+    
+    // ✅ Clear form fields
+    document.getElementById('new-quote-text').value = '';
+    document.getElementById('new-quote-category').value = '';
+  } else {
+    // ❌ Form validation failed
+    feedback.style.color = 'red';
+    feedback.textContent = "Please fill in both fields.";
+    setTimeout(() => {
+      feedback.textContent = '';
+      feedback.style.color = 'green';
+    }, 2000);
+  }
+}
