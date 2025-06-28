@@ -218,3 +218,51 @@ document.addEventListener("DOMContentLoaded", () => {
     exportBtn.addEventListener("click", exportQuotes);
   }
 });
+
+// Import quotes from a JSON file
+function importQuotesFromFile(file) {
+  const reader = new FileReader(); // ✅ FileReader
+
+  reader.onload = function (e) {   // ✅ onload
+    try {
+      const importedQuotes = JSON.parse(e.target.result);
+      if (Array.isArray(importedQuotes)) {
+        quotes = importedQuotes;
+        localStorage.setItem('quotes', JSON.stringify(quotes));
+        updateQuoteList();
+        alert("Quotes imported successfully!");
+      } else {
+        alert("Invalid file format. Must be a JSON array.");
+      }
+    } catch (err) {
+      alert("Error reading file: " + err.message);
+    }
+  };
+
+  reader.readAsText(file); // ✅ readAsText
+}
+
+// Listen for import button click
+document.addEventListener("DOMContentLoaded", () => {
+  createAddQuoteForm();
+  updateQuoteList();
+
+  // Export listener (already present)
+  const exportBtn = document.getElementById("export-btn");
+  if (exportBtn) exportBtn.addEventListener("click", exportQuotes);
+
+  // ✅ Import listener
+  const importBtn = document.getElementById("import-btn");
+  const importFile = document.getElementById("import-file");
+
+  if (importBtn && importFile) {
+    importBtn.addEventListener("click", () => {
+      const file = importFile.files[0];
+      if (!file) {
+        alert("Please select a file first.");
+        return;
+      }
+      importQuotesFromFile(file); // Call import function
+    });
+  }
+});
