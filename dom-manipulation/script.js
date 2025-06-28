@@ -432,3 +432,7 @@ async function syncQuotes() {
 
 
 document.getElementById("sync-btn").addEventListener("click", syncQuotes);
+// Automatically sync quotes every 60 seconds
+setInterval(() => {
+  syncQuotes(); // ✅ Periodic sync
+}, 60000); // 60,000 ms = 60 seconds
