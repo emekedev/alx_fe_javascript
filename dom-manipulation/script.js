@@ -95,3 +95,101 @@ function updateQuoteList() {
     quoteList.appendChild(li);
   });
 }
+
+
+let quotes = JSON.parse(localStorage.getItem('quotes')) || [
+  { text: "Be yourself; everyone else is already taken.", category: "Inspiration" },
+  { text: "Do or do not. There is no try.", category: "Motivation" },
+  { text: "Life is what happens when you're busy making other plans.", category: "Life" }
+];
+
+// Show a random quote
+function showRandomQuote() {
+  if (quotes.length === 0) return;
+
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const quote = quotes[randomIndex];
+
+  const displayDiv = document.getElementById('quote-display');
+  displayDiv.innerHTML = '';
+
+  const textP = document.createElement('p');
+  textP.textContent = `"${quote.text}"`;
+
+  const categoryP = document.createElement('p');
+  categoryP.innerHTML = `<em>Category: ${quote.category}</em>`;
+
+  displayDiv.appendChild(textP);
+  displayDiv.appendChild(categoryP);
+}
+
+// Create form for adding quotes
+function createAddQuoteForm() {
+  const formContainer = document.getElementById('form-container');
+
+  formContainer.innerHTML = `
+    <h3>Add a New Quote</h3>
+    <input type="text" id="new-quote-text" placeholder="Quote text"><br><br>
+    <input type="text" id="new-quote-category" placeholder="Category"><br><br>
+    <button id="add-quote-btn">Add Quote</button>
+    <p id="feedback" style="color: green;"></p>
+  `;
+
+  document.getElementById('add-quote-btn').addEventListener('click', addQuote);
+}
+
+// Add quote and update localStorage + DOM
+function addQuote() {
+  const quoteText = document.getElementById('new-quote-text').value.trim();
+  const category = document.getElementById('new-quote-category').value.trim();
+  const feedback = document.getElementById('feedback');
+
+  if (quoteText && category) {
+    const newQuote = { text: quoteText, category: category };
+    quotes.push(newQuote);
+
+    // ✅ Save updated array to localStorage
+    localStorage.setItem('quotes', JSON.stringify(quotes));
+
+    updateQuoteList();
+    feedback.textContent = "Quote added!";
+    setTimeout(() => (feedback.textContent = ""), 2000);
+
+    document.getElementById('new-quote-text').value = '';
+    document.getElementById('new-quote-category').value = '';
+  } else {
+    feedback.style.color = 'red';
+    feedback.textContent = "Please fill in both fields.";
+    setTimeout(() => {
+      feedback.textContent = '';
+      feedback.style.color = 'green';
+    }, 2000);
+  }
+}
+
+// Display all quotes in a list using createElement/appendChild
+function updateQuoteList() {
+  const quoteList = document.getElementById('quote-list');
+  quoteList.innerHTML = '';
+
+  quotes.forEach((quote) => {
+    const li = document.createElement('li');
+
+    const textSpan = document.createElement('span');
+    textSpan.textContent = `"${quote.text}" `;
+
+    const categoryEm = document.createElement('em');
+    categoryEm.textContent = `(${quote.category})`;
+
+    li.appendChild(textSpan);
+    li.appendChild(categoryEm);
+
+    quoteList.appendChild(li);
+  });
+}
+
+// Initialize app
+document.addEventListener('DOMContentLoaded', () => {
+  createAddQuoteForm();
+  updateQuoteList();
+});
