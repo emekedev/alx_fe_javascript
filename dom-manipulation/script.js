@@ -390,3 +390,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Other event listeners like import/export/filter...
 });
+
+
+async function sendQuoteToServer(quote) {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST", // ✅ method + POST
+      headers: {
+        "Content-Type": "application/json" // ✅ headers + Content-Type
+      },
+      body: JSON.stringify(quote)
+    });
+
+    const data = await response.json();
+    console.log("Quote sent to server:", data);
+  } catch (error) {
+    console.error("Error sending quote:", error);
+  }
+}
+
+
+sendQuoteToServer(newQuote); // ✅ triggers the POST request
