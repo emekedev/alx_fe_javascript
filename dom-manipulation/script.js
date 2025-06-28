@@ -312,3 +312,29 @@ function filterQuote(category) {
 document.getElementById("categoryFilter").addEventListener("change", (e) => {
   filterQuote(e.target.value); // ✅ use filterQuote instead of updateQuoteList
 });
+
+
+function filterQuote(category) {
+  const selectedCategory = category; // ✅ Explicitly use selectedCategory
+  const quoteDisplay = document.getElementById("quoteDisplay");
+  quoteDisplay.innerHTML = '';
+
+  const filtered = selectedCategory === "all"
+    ? quotes
+    : quotes.filter(q => q.category === selectedCategory);
+
+  if (filtered.length === 0) {
+    quoteDisplay.textContent = "No quotes found for this category.";
+    return;
+  }
+
+  filtered.forEach(quote => {
+    const p = document.createElement("p");
+    p.textContent = `"${quote.text}" (${quote.category})`;
+    quoteDisplay.appendChild(p);
+  });
+}
+document.getElementById("categoryFilter").addEventListener("change", (e) => {
+  const selectedCategory = e.target.value; // ✅ Use variable explicitly
+  filterQuote(selectedCategory);
+});
