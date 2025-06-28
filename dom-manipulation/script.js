@@ -75,3 +75,23 @@ function addQuote() {
     }, 2000);
   }
 }
+
+function updateQuoteList() {
+  const quoteList = document.getElementById('quote-list');
+  quoteList.innerHTML = ''; // Clear list
+
+  quotes.forEach((quote) => {
+    const li = document.createElement('li');
+
+    const quoteText = document.createElement('span');
+    quoteText.textContent = `"${quote.text}" `;
+
+    const category = document.createElement('em');
+    category.textContent = `(${quote.category})`;
+
+    li.appendChild(quoteText);
+    li.appendChild(category);
+
+    quoteList.appendChild(li);
+  });
+}
