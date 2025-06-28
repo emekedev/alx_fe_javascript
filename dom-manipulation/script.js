@@ -338,3 +338,18 @@ document.getElementById("categoryFilter").addEventListener("change", (e) => {
   const selectedCategory = e.target.value; // ✅ Use variable explicitly
   filterQuote(selectedCategory);
 });
+
+
+function fetchQuotesFromServer() {
+  // Simulated "fetched" data
+  const fetchedQuotes = [
+    { text: "Success is not final, failure is not fatal.", category: "Motivation" },
+    { text: "In the middle of difficulty lies opportunity.", category: "Inspiration" }
+  ];
+
+  quotes = fetchedQuotes;
+  localStorage.setItem("quotes", JSON.stringify(quotes));
+
+  updateQuoteList();
+  populateCategories();
+}
