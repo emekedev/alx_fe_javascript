@@ -411,3 +411,24 @@ async function sendQuoteToServer(quote) {
 
 
 sendQuoteToServer(newQuote); // ✅ triggers the POST request
+
+
+async function syncQuotes() {
+  try {
+    for (const quote of quotes) {
+      await fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(quote)
+      });
+    }
+    console.log("All quotes synced with the server.");
+  } catch (error) {
+    console.error("Error syncing quotes:", error);
+  }
+}
+
+
+document.getElementById("sync-btn").addEventListener("click", syncQuotes);
