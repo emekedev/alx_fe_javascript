@@ -266,3 +266,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// This function updates the category dropdown based on available quotes
+function populateCategories() {
+  const categoryFilter = document.getElementById("categoryFilter"); // ✅ categoryFilter
+
+  // Get unique categories from quotes array
+  const categories = quotes.map(q => q.category); // ✅ map()
+  const uniqueCategories = [...new Set(categories)];
+
+  // Clear existing options
+  categoryFilter.innerHTML = '<option value="all">All</option>';
+
+  // Populate dropdown
+  uniqueCategories.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    categoryFilter.appendChild(option);
+  });
+}
