@@ -286,3 +286,29 @@ function populateCategories() {
     categoryFilter.appendChild(option);
   });
 }
+
+// ✅ Function to filter quotes and display in quoteDisplay
+function filterQuote(category) {
+  const quoteDisplay = document.getElementById("quoteDisplay"); // ✅ quoteDisplay
+  quoteDisplay.innerHTML = ''; // Clear display
+
+  const filtered = category === "all"
+    ? quotes
+    : quotes.filter(q => q.category === category);
+
+  if (filtered.length === 0) {
+    quoteDisplay.textContent = "No quotes found for this category.";
+    return;
+  }
+
+  // Display filtered quotes
+  filtered.forEach(quote => {
+    const p = document.createElement("p");
+    p.textContent = `"${quote.text}" (${quote.category})`;
+    quoteDisplay.appendChild(p);
+  });
+}
+
+document.getElementById("categoryFilter").addEventListener("change", (e) => {
+  filterQuote(e.target.value); // ✅ use filterQuote instead of updateQuoteList
+});
