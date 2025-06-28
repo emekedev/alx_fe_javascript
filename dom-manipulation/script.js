@@ -436,3 +436,6 @@ document.getElementById("sync-btn").addEventListener("click", syncQuotes);
 setInterval(() => {
   syncQuotes(); // ✅ Periodic sync
 }, 60000); // 60,000 ms = 60 seconds
+
+const statusEl = document.getElementById("status");
+statusEl.textContent = "Quotes synced with server!";
