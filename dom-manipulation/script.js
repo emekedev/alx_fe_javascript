@@ -193,3 +193,28 @@ document.addEventListener('DOMContentLoaded', () => {
   createAddQuoteForm();
   updateQuoteList();
 });
+
+function exportQuotes() {
+  const quoteData = JSON.stringify(quotes, null, 2); // Pretty format
+  const blob = new Blob([quoteData], { type: "application/json" }); // ✅ Blob with MIME type
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "quotes.json"; // Suggested file name
+  a.click();
+
+  URL.revokeObjectURL(url); // Clean up memory
+}
+
+// Attach export event listener
+document.addEventListener("DOMContentLoaded", () => {
+  createAddQuoteForm();
+  updateQuoteList();
+
+  // ✅ Add listener to export button
+  const exportBtn = document.getElementById("export-btn");
+  if (exportBtn) {
+    exportBtn.addEventListener("click", exportQuotes);
+  }
+});
