@@ -7,3 +7,11 @@ const quotesArray = [
         category: newQuoteCategory
     }
 ]
+
+function showRandomQuote(){
+
+}
+
+function createAddQuoteForm(){
+    
+}
